@@ -24,6 +24,7 @@ import org.darkstorm.minecraft.gui.theme.simple.SimpleTheme;
 import org.darkstorm.minecraft.gui.util.GuiManagerDisplayScreen;
 import org.lwjgl.input.Keyboard;
 
+import co.uk.hexeption.opiates.command.CommandManager;
 import co.uk.hexeption.opiates.event.api.EventManager;
 import co.uk.hexeption.opiates.event.api.EventTarget;
 import co.uk.hexeption.opiates.event.events.EventKeyboard;
@@ -31,19 +32,22 @@ import co.uk.hexeption.opiates.gui.GuiManager;
 import co.uk.hexeption.opiates.module.Module;
 import co.uk.hexeption.opiates.module.ModuleManager;
 import co.uk.hexeption.opiates.wrapper.Wrapper;
+import net.minecraft.util.text.TextComponentString;
 
 public class Opiates {
 
-	public static String	Client_Name		= "Opiates";
-	public static double	Client_Version	= 1.0;
-	public static String	Client_Creator	= "Hexeption";
-	public static Logger	logger			= LogManager.getLogger();
-	public static Opiates	Client_Instance = new Opiates();
-	
-	private static ModuleManager moduleManager = new ModuleManager();
-	
-	private static GuiManagerDisplayScreen gui;
-	private static GuiManager guiManager;
+	public static String					Client_Name		= "Opiates";
+	public static double					Client_Version	= 1.0;
+	public static String					Client_Creator	= "Hexeption";
+	public static Logger					logger			= LogManager.getLogger();
+	public static Opiates					Client_Instance	= new Opiates();
+	private static String					ChatPrefix		= "§7[§3" + Client_Name + "§7] §7";
+
+	private static ModuleManager			moduleManager	= new ModuleManager();
+	private static CommandManager			commandManager	= new CommandManager();
+
+	private static GuiManagerDisplayScreen	gui;
+	private static GuiManager				guiManager;
 
 	public void startClient() {
 		logger.log(Level.DEBUG, "Loading " + Client_Name);
@@ -51,27 +55,27 @@ public class Opiates {
 		EventManager.register(this);
 
 		// INIT
-		
-		if(Wrapper.getInstance().getWorld() != null){
+
+		if (Wrapper.getInstance().getWorld() != null) {
 			moduleManager.setModuleState("Hud", false);
-		}else{
+		} else {
 			moduleManager.setModuleState("Hud", true);
 		}
 
 		logger.log(Level.DEBUG, "Finished loading " + Client_Name);
 	}
-	
+
 	@EventTarget
-	private void onEventKeyboard(EventKeyboard event){
-		for(Module mod: moduleManager.activeModules){
-			if(Keyboard.getEventKey() == mod.getBind()){
+	private void onEventKeyboard(EventKeyboard event) {
+		for (Module mod : moduleManager.activeModules) {
+			if (Keyboard.getEventKey() == mod.getBind()) {
 				mod.toggle();
 			}
 		}
 	}
-	
-	public GuiManager getGuiManager(){
-		if(guiManager == null){
+
+	public GuiManager getGuiManager() {
+		if (guiManager == null) {
 			guiManager = new GuiManager();
 			guiManager.setTheme(new SimpleTheme());
 			guiManager.setup();
@@ -79,14 +83,17 @@ public class Opiates {
 		}
 		return guiManager;
 	}
-	
-	public GuiManagerDisplayScreen getGui(){
-		if(gui == null){
+
+	public GuiManagerDisplayScreen getGui() {
+		if (gui == null) {
 			gui = new GuiManagerDisplayScreen(getGuiManager());
 		}
 		return gui;
 	}
 
+	public void addChatMessage(String chatMessage) {
+		Wrapper.getInstance().getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(ChatPrefix + chatMessage));
+	}
 
 	public static String getClient_Name() {
 		return Client_Name;
@@ -111,9 +118,9 @@ public class Opiates {
 	public static ModuleManager getModuleManager() {
 		return moduleManager;
 	}
-	
-	
-	
-	
+
+	public CommandManager getCommandManager() {
+		return commandManager;
+	}
 
 }

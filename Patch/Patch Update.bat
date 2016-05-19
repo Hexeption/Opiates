@@ -7,6 +7,6 @@ set opiates-dir="C:\Users\Hexeption\Desktop\Hacked Clients\Opiates"
 
 cd %mc-dir%
 
-git diff master > %opiates-dir%/Patch/Minecraft.patch
+git diff opiates > %opiates-dir%/Patch/Minecraft.patch
 
 pause
