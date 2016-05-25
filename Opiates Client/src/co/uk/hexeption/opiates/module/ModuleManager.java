@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import co.uk.hexeption.opiates.module.modules.hud.Gui;
 import co.uk.hexeption.opiates.module.modules.hud.Hud;
 import co.uk.hexeption.opiates.module.modules.movement.Step;
+import co.uk.hexeption.opiates.module.modules.render.OutlineESP;
 
 public class ModuleManager {
 	
@@ -32,6 +33,7 @@ public class ModuleManager {
 		activeModules.add(new Hud());
 		activeModules.add(new Step());
 		activeModules.add(new Gui());
+		activeModules.add(new OutlineESP());
 	}
 	
 	public static ArrayList<Module> getModules(){
