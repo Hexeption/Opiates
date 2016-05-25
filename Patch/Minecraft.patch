@@ -1,5 +1,5 @@
 diff --git a/src/net/minecraft/client/Minecraft.java b/src/net/minecraft/client/Minecraft.java
-index 4b1041d..e308568 100644
+index 4b1041d..850ca55 100644
 --- a/src/net/minecraft/client/Minecraft.java
 +++ b/src/net/minecraft/client/Minecraft.java
 @@ -1,17 +1,5 @@
@@ -102,7 +102,7 @@ index 4b1041d..e308568 100644
  
      /**
       * Set to 'this' in Minecraft constructor; used by some settings get methods
-@@ -242,7 +249,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -242,10 +249,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
      private RenderItem renderItem;
      private ItemRenderer itemRenderer;
      public EntityPlayerSP thePlayer;
@@ -110,7 +110,11 @@ index 4b1041d..e308568 100644
 +    public Entity renderViewEntity;
      public Entity pointedEntity;
      public EffectRenderer effectRenderer;
-     private final Session session;
+-    private final Session session;
++    public Session session;
+     private boolean isGamePaused;
+ 
+     /** The font renderer used for displaying and measuring text */
 @@ -588,11 +595,13 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
          if (this.serverName != null)
@@ -326,6 +330,21 @@ index 762c0d0..7d478ea 100644
          }
      }
  
+diff --git a/src/net/minecraft/client/gui/GuiMainMenu.java b/src/net/minecraft/client/gui/GuiMainMenu.java
+index 97d75b4..1c59d8d 100644
+--- a/src/net/minecraft/client/gui/GuiMainMenu.java
++++ b/src/net/minecraft/client/gui/GuiMainMenu.java
+@@ -254,7 +254,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
+     {
+         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer", new Object[0])));
+         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer", new Object[0])));
+-        this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
++        
++        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 98, 20, "Alt Manager"));
++        this.buttonList.add(new GuiButton(101, this.width / 2 + 2, p_73969_1_ + p_73969_2_ * 2, 98, 20, "Client Options"));
+     }
+ 
+     /**
 diff --git a/src/net/minecraft/client/gui/GuiMemoryErrorScreen.java b/src/net/minecraft/client/gui/GuiMemoryErrorScreen.java
 index e943b88..7ce8a76 100644
 --- a/src/net/minecraft/client/gui/GuiMemoryErrorScreen.java
@@ -364,6 +383,28 @@ index 96e3c33..f2ac0d0 100644
          OptionSpec<String> optionspec15 = optionparser.accepts("userProperties").withRequiredArg().defaultsTo("{}", new String[0]);
          OptionSpec<String> optionspec16 = optionparser.accepts("profileProperties").withRequiredArg().defaultsTo("{}", new String[0]);
          OptionSpec<String> optionspec17 = optionparser.accepts("assetIndex").withRequiredArg();
+diff --git a/src/net/minecraft/client/multiplayer/GuiConnecting.java b/src/net/minecraft/client/multiplayer/GuiConnecting.java
+index 95ec4bd..65a831e 100644
+--- a/src/net/minecraft/client/multiplayer/GuiConnecting.java
++++ b/src/net/minecraft/client/multiplayer/GuiConnecting.java
+@@ -19,6 +19,8 @@ import net.minecraft.util.text.TextComponentTranslation;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
++import co.uk.hexeption.opiates.utils.ServerUtils;
++
+ public class GuiConnecting extends GuiScreen
+ {
+     private static final AtomicInteger CONNECTION_ID = new AtomicInteger(0);
+@@ -64,7 +66,7 @@ public class GuiConnecting extends GuiScreen
+                     inetaddress = InetAddress.getByName(ip);
+                     GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(inetaddress, port, GuiConnecting.this.mc.gameSettings.isUsingNativeTransport());
+                     GuiConnecting.this.networkManager.setNetHandler(new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.this.mc, GuiConnecting.this.previousGuiScreen));
+-                    GuiConnecting.this.networkManager.sendPacket(new C00Handshake(109, ip, port, EnumConnectionState.LOGIN));
++                    GuiConnecting.this.networkManager.sendPacket(new C00Handshake(ServerUtils.getProtcol(), ip, port, EnumConnectionState.LOGIN));
+                     GuiConnecting.this.networkManager.sendPacket(new CPacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
+                 }
+                 catch (UnknownHostException unknownhostexception)
 diff --git a/src/net/minecraft/client/network/NetHandlerPlayClient.java b/src/net/minecraft/client/network/NetHandlerPlayClient.java
 index 3d96d60..a102b63 100644
 --- a/src/net/minecraft/client/network/NetHandlerPlayClient.java
@@ -541,6 +582,29 @@ index 454fb63..7465f48 100644
  
                      if (flag)
                      {
+diff --git a/src/net/minecraft/network/play/server/SPacketJoinGame.java b/src/net/minecraft/network/play/server/SPacketJoinGame.java
+index dcd2cf2..05fd10b 100644
+--- a/src/net/minecraft/network/play/server/SPacketJoinGame.java
++++ b/src/net/minecraft/network/play/server/SPacketJoinGame.java
+@@ -1,6 +1,8 @@
+ package net.minecraft.network.play.server;
+ 
+ import java.io.IOException;
++
++import co.uk.hexeption.opiates.utils.ServerUtils;
+ import net.minecraft.network.Packet;
+ import net.minecraft.network.PacketBuffer;
+ import net.minecraft.network.play.INetHandlerPlayClient;
+@@ -50,6 +52,9 @@ public class SPacketJoinGame implements Packet<INetHandlerPlayClient>
+         this.maxPlayers = buf.readUnsignedByte();
+         this.worldType = WorldType.parseWorldType(buf.readStringFromBuffer(16));
+ 
++        //TOOD: Client
++        ServerUtils.packetBuffer(buf);
++        
+         if (this.worldType == null)
+         {
+             this.worldType = WorldType.DEFAULT;
 diff --git a/src/shadersmod/client/Shaders.java b/src/shadersmod/client/Shaders.java
 index 050f4e5..dbcae18 100644
 --- a/src/shadersmod/client/Shaders.java
