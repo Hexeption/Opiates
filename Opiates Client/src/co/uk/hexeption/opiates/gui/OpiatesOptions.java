@@ -23,18 +23,19 @@ import java.io.IOException;
 import org.lwjgl.input.Keyboard;
 
 import co.uk.hexeption.opiates.Opiates;
+import co.uk.hexeption.opiates.utils.ServerUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
-public class OpiatesOptions extends GuiScreen{
-	
-	private GuiScreen lastScreen;
-	private GuiButton lastMousedButton;
-	
-	public OpiatesOptions(GuiScreen lastscreen){
+public class OpiatesOptions extends GuiScreen {
+
+	private GuiScreen	lastScreen;
+	private GuiButton	lastMousedButton;
+
+	public OpiatesOptions(GuiScreen lastscreen) {
 		this.lastScreen = lastscreen;
 	}
-	
+
 	@Override
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
@@ -42,23 +43,43 @@ public class OpiatesOptions extends GuiScreen{
 
 		int leftAlign = this.width / 2 - 152;
 		int rightAlign = this.width / 2 + 2;
-		int bottomTop = this.height / 6 + 96 - 6;
-		int bottomCenter = this.height / 6 + 120 - 6;
-		int bottomBottom = this.height / 6 + 144 - 6;
 		int topExtraTop = this.height / 6 - 12;
 		int topTop = this.height / 6 - 12 + 24;
 		int topCenter = this.height / 6 - 12 + 48;
+		int bottomTop = this.height / 6 + 96 - 6;
 		int topBottom = topCenter + 24;
-		
-		this.buttonList.add(new GuiButton(1, leftAlign, topTop, 150, 20, "Theme: " + Opiates.getHud().getCurrentTheme().getName()));
+		int bottomCenter = this.height / 6 + 120 - 6;
+		int bottomBottom = this.height / 6 + 144 - 6;
+
+		this.buttonList.add(new GuiButton(1, leftAlign, topExtraTop, 150, 20, "Theme: " + Opiates.getHud().getCurrentTheme().getName()));
+		this.buttonList.add(new GuiButton(2, rightAlign, topExtraTop, 150, 20, "TTF Chat: " + "On"));
+
+		this.buttonList.add(new GuiButton(3, leftAlign, topTop, 150, 20, ServerUtils.getProtocolName()));
+		this.buttonList.add(new GuiButton(4, rightAlign, topTop, 150, 20, "Coming Soon!"));
+
+		this.buttonList.add(new GuiButton(5, leftAlign, topCenter, 150, 20, "Coming Soon!"));
+		this.buttonList.add(new GuiButton(6, rightAlign, topCenter, 150, 20, "Coming Soon!"));
+
+		this.buttonList.add(new GuiButton(7, leftAlign, bottomTop, 150, 20, "Coming Soon!"));
+		this.buttonList.add(new GuiButton(8, rightAlign, bottomTop, 150, 20, "Coming Soon!"));
+
+		this.buttonList.add(new GuiButton(9, leftAlign, topBottom, 150, 20, "Coming Soon!"));
+		this.buttonList.add(new GuiButton(10, rightAlign, topBottom, 150, 20, "Coming Soon!"));
+
+		this.buttonList.add(new GuiButton(11, leftAlign, bottomCenter, 150, 20, "Coming Soon!"));
+		this.buttonList.add(new GuiButton(12, rightAlign, bottomCenter, 150, 20, "Coming Soon!"));
+
+		this.buttonList.add(new GuiButton(13, leftAlign, bottomBottom, 150, 20, "Coming Soon!"));
+		this.buttonList.add(new GuiButton(14, rightAlign, bottomBottom, 150, 20, "Coming Soon!"));
+
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 6 + 168, "Done"));
 		super.initGui();
 	}
-	
+
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		this.lastMousedButton = button;
-		
+
 		switch (button.id) {
 		case 0:
 			this.mc.displayGuiScreen(this.lastScreen);
@@ -67,14 +88,20 @@ public class OpiatesOptions extends GuiScreen{
 			Opiates.getHud().onNextTheme();
 			initGui();
 			break;
+		case 2:
+			break;
+		case 3:
+			ServerUtils.switchProtocl();
+			initGui();
+			break;
 		}
 	}
-	
+
 	@Override
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
-	
+
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawDefaultBackground();

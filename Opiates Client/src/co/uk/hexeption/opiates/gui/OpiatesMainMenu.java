@@ -38,6 +38,11 @@ public class OpiatesMainMenu extends GuiMainMenu {
 	@Override
 	public void initGui() {
 		super.initGui();
+		
+		for (int i = 3; i <= 5; i++)
+        {
+            ((GuiButton) buttonList.get(i)).yPosition = Math.min(((GuiButton) buttonList.get(i)).yPosition, height - 56);
+        }
 	}
 
 	@Override
@@ -45,9 +50,11 @@ public class OpiatesMainMenu extends GuiMainMenu {
 		super.actionPerformed(button);
 		switch (button.id)
         {
-            case 14:
-            	//Add Alt Manager
+            case 100:
+            	mc.displayGuiScreen(new SkeetLogin(this));
                 break;
+            case 101:
+            	mc.displayGuiScreen(new OpiatesOptions(this));
         }
 	}
 
