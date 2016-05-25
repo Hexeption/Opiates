@@ -31,6 +31,7 @@ import co.uk.hexeption.opiates.event.events.EventKeyboard;
 import co.uk.hexeption.opiates.gui.GuiManager;
 import co.uk.hexeption.opiates.module.Module;
 import co.uk.hexeption.opiates.module.ModuleManager;
+import co.uk.hexeption.opiates.ui.Hud;
 import co.uk.hexeption.opiates.wrapper.Wrapper;
 import net.minecraft.util.text.TextComponentString;
 
@@ -45,6 +46,7 @@ public class Opiates {
 
 	private static ModuleManager			moduleManager	= new ModuleManager();
 	private static CommandManager			commandManager	= new CommandManager();
+	private static Hud						hud				= new Hud();
 
 	private static GuiManagerDisplayScreen	gui;
 	private static GuiManager				guiManager;
@@ -56,11 +58,7 @@ public class Opiates {
 
 		// INIT
 
-		if (Wrapper.getInstance().getWorld() != null) {
-			moduleManager.setModuleState("Hud", false);
-		} else {
-			moduleManager.setModuleState("Hud", true);
-		}
+		this.hud.loadThemes();
 
 		logger.log(Level.DEBUG, "Finished loading " + Client_Name);
 	}
@@ -122,5 +120,11 @@ public class Opiates {
 	public CommandManager getCommandManager() {
 		return commandManager;
 	}
+
+	public static Hud getHud() {
+		return hud;
+	}
+	
+	
 
 }

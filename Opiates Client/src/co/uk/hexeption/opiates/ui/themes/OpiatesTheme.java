@@ -16,29 +16,21 @@
  *
  */
 
-package co.uk.hexeption.opiates.module.modules.hud;
+package co.uk.hexeption.opiates.ui.themes;
 
 import co.uk.hexeption.opiates.Opiates;
-import co.uk.hexeption.opiates.event.api.EventTarget;
-import co.uk.hexeption.opiates.event.events.render.EventRender2D;
 import co.uk.hexeption.opiates.module.Category;
 import co.uk.hexeption.opiates.module.Module;
+import co.uk.hexeption.opiates.ui.InGameHud;
 import co.uk.hexeption.opiates.wrapper.Wrapper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
-public class Hud extends Module{
+public class OpiatesTheme implements InGameHud{
 
-	public Hud() {
-		super("Hud", "Displays things on the hud.", "hud", 0, 0, Category.GUI);
-	}
-	
-	@EventTarget
-	private void onRender2D(EventRender2D event){
-		if(Wrapper.getInstance().getGameSettings().showDebugInfo){
-			return;
-		}
-		
-		ScaledResolution sr = new ScaledResolution(mc);
+	@Override
+	public void render(Minecraft minecraft, int displayWidth, int displayHeight) {
+		ScaledResolution sr = new ScaledResolution(minecraft);
 		String drawFPS = String.valueOf(Wrapper.getInstance().getMinecraft().getDebugFPS());
 		Wrapper.getInstance().getFontRenderer().drawString(Opiates.getClient_Name() + " §6[rel-" + Opiates.getClient_Version() + "]", 3, 2, 0xffffffff);
 		Wrapper.getInstance().getFontRenderer().drawString("FPS: §6" + drawFPS, 3, 14, 0xffffffff);
@@ -57,6 +49,15 @@ public class Hud extends Module{
 		}
 	}
 	
-	
+
+	@Override
+	public String getName() {
+		return "Opiates";
+	}
+
+	@Override
+	public void onKeyPressed(int key) {
+		
+	}
 
 }

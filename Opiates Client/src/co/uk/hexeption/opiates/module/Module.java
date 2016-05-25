@@ -20,6 +20,8 @@ package co.uk.hexeption.opiates.module;
 
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
+
 import co.uk.hexeption.opiates.event.api.EventManager;
 import net.minecraft.client.Minecraft;
 
@@ -111,6 +113,10 @@ public class Module {
 		if (s == category)
 			return true;
 		return false;
+	}
+
+	public String getKeyName() {
+		return getBind() == -1 ? "-1" : Keyboard.getKeyName(getBind());
 	}
 
 }

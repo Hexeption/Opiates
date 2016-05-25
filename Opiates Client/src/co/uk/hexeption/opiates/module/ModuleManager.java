@@ -21,7 +21,6 @@ package co.uk.hexeption.opiates.module;
 import java.util.ArrayList;
 
 import co.uk.hexeption.opiates.module.modules.hud.Gui;
-import co.uk.hexeption.opiates.module.modules.hud.Hud;
 import co.uk.hexeption.opiates.module.modules.movement.Step;
 import co.uk.hexeption.opiates.module.modules.render.OutlineESP;
 
@@ -30,7 +29,6 @@ public class ModuleManager {
 	public static ArrayList<Module> activeModules = new ArrayList<Module>();
 	
 	public ModuleManager(){
-		activeModules.add(new Hud());
 		activeModules.add(new Step());
 		activeModules.add(new Gui());
 		activeModules.add(new OutlineESP());
