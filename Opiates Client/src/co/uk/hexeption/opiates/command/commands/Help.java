@@ -12,7 +12,7 @@ public class Help extends Command {
 	@Override
 	public void runCommand(String string, String[] args) {
 		for (Command cmdCommand : CommandManager.theCommandManager) {
-			Opiates.getInstance().addChatMessage(cmdCommand.getName() + " - " + cmdCommand.getDesc());
+			Opiates.theClient.addChatMessage(cmdCommand.getName() + " - " + cmdCommand.getDesc());
 		}
 	}
 }

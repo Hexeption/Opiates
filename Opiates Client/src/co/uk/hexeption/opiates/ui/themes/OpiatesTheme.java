@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 | Hexeption | All rights reserved.
+ * Copyright ï¿½ 2016 | Hexeption | All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,8 +32,8 @@ public class OpiatesTheme implements InGameHud{
 	public void render(Minecraft minecraft, int displayWidth, int displayHeight) {
 		ScaledResolution sr = new ScaledResolution(minecraft);
 		String drawFPS = String.valueOf(Wrapper.getInstance().getMinecraft().getDebugFPS());
-		Wrapper.getInstance().getFontRenderer().drawString(Opiates.getClient_Name() + " §6[rel-" + Opiates.getClient_Version() + "]", 3, 2, 0xffffffff);
-		Wrapper.getInstance().getFontRenderer().drawString("FPS: §6" + drawFPS, 3, 14, 0xffffffff);
+		Wrapper.getInstance().getFontRenderer().drawString(Opiates.theClient.Client_Name + " Â§6[rel-" + Opiates.theClient.Client_Version + "]", 3, 2, 0xffffffff);
+		Wrapper.getInstance().getFontRenderer().drawString("FPS: Â§6" + drawFPS, 3, 14, 0xffffffff);
 		renderArryList(sr);
 	}
 	
@@ -41,7 +41,7 @@ public class OpiatesTheme implements InGameHud{
 		int yCount = 5;
 		int right = scaledResolution.getScaledWidth() - 3;
 
-		for (Module m : Opiates.getInstance().getModuleManager().activeModules) {
+		for (Module m : Opiates.theClient.mods.activeModules) {
 			if (m.getState() && m.getCategory() != Category.GUI) {
 				Wrapper.getInstance().getFontRenderer().drawString(m.getName(), right - Wrapper.getInstance().getFontRenderer().getStringWidth(m.getName()), yCount, m.getColor());
 				yCount += 10;

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 | Hexeption | All rights reserved.
+ * Copyright ï¿½ 2016 | Hexeption | All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ import net.minecraft.client.Minecraft;
 public class OldSchool implements InGameHud {
 	
 	public void render(Minecraft mc, int screenWith, int screenHeight) {
-		mc.fontRendererObj.drawStringWithShadow(Opiates.getInstance().getClient_Name() + " v" + Opiates.getInstance().getClient_Version() + " by " + Opiates.getInstance().getClient_Creator(), 2, 2, 0xffff);
+		mc.fontRendererObj.drawStringWithShadow(Opiates.theClient.Client_Name + " v" + Opiates.theClient.Client_Version + " by " + Opiates.theClient.Client_Creator, 2, 2, 0xffff);
 
 		int yPos = 20;
-		for (Module module : Opiates.getInstance().getModuleManager().getModules()) {
+		for (Module module : Opiates.theClient.mods.getModules()) {
 			if (!module.getKeyName().equals("-1")) {
 				mc.fontRendererObj.drawStringWithShadow("[" + module.getKeyName() + "] " + module.getName(), 2, yPos, module.getState() ? 3381504 : 10027008);
 				yPos += 11;

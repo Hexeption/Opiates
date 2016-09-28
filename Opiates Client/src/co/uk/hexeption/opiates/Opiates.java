@@ -1,5 +1,5 @@
 /*
- * Copyright ฉ 2016 | Hexeption | All rights reserved.
+ * Copyright ๏ฟฝ 2016 | Hexeption | All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,96 +35,67 @@ import co.uk.hexeption.opiates.ui.Hud;
 import co.uk.hexeption.opiates.wrapper.Wrapper;
 import net.minecraft.util.text.TextComponentString;
 
-public class Opiates {
+public enum Opiates {
 
-	public static String					Client_Name		= "Opiates";
-	public static double					Client_Version	= 1.0;
-	public static String					Client_Creator	= "Hexeption";
-	public static Logger					logger			= LogManager.getLogger();
-	public static Opiates					Client_Instance	= new Opiates();
-	private static String					ChatPrefix		= "ง7[ง3" + Client_Name + "ง7] ง7";
+    theClient;
 
-	private static ModuleManager			moduleManager	= new ModuleManager();
-	private static CommandManager			commandManager	= new CommandManager();
-	private static Hud						hud				= new Hud();
+    public String Client_Name = "Opiates";
+    public double Client_Version = 1.0;
+    public String Client_Creator = "Hexeption";
+    public Logger logger = LogManager.getLogger();
+    private String ChatPrefix = "ยง7[ยง3" + Client_Name + "ยง7] ยง7";
 
-	private static GuiManagerDisplayScreen	gui;
-	private static GuiManager				guiManager;
+    public ModuleManager mods;
+    public CommandManager cmds;
+    public Hud hud;
 
-	public void startClient() {
-		logger.log(Level.DEBUG, "Loading " + Client_Name);
-		logger.log(Level.DEBUG, "Made by " + Client_Creator);
-		EventManager.register(this);
+    public GuiManagerDisplayScreen gui;
+    public GuiManager guiManager;
 
-		// INIT
+    public void startClient() {
+        logger.log(Level.DEBUG, "Loading " + Client_Name);
+        logger.log(Level.DEBUG, "Made by " + Client_Creator);
+        EventManager.register(this);
 
-		this.hud.loadThemes();
+        // INIT
 
-		logger.log(Level.DEBUG, "Finished loading " + Client_Name);
-	}
+        mods = new ModuleManager();
+        cmds = new CommandManager();
+        hud = new Hud();
 
-	@EventTarget
-	private void onEventKeyboard(EventKeyboard event) {
-		for (Module mod : moduleManager.activeModules) {
-			if (Keyboard.getEventKey() == mod.getBind()) {
-				mod.toggle();
-			}
-		}
-	}
+        hud.loadThemes();
 
-	public GuiManager getGuiManager() {
-		if (guiManager == null) {
-			guiManager = new GuiManager();
-			guiManager.setTheme(new SimpleTheme());
-			guiManager.setup();
-			guiManager.update();
-		}
-		return guiManager;
-	}
+        logger.log(Level.DEBUG, "Finished loading " + Client_Name);
+    }
 
-	public GuiManagerDisplayScreen getGui() {
-		if (gui == null) {
-			gui = new GuiManagerDisplayScreen(getGuiManager());
-		}
-		return gui;
-	}
+    @EventTarget
+    private void onEventKeyboard(EventKeyboard event) {
+        for (Module mod : mods.activeModules) {
+            if (Keyboard.getEventKey() == mod.getBind()) {
+                mod.toggle();
+            }
+        }
+    }
 
-	public void addChatMessage(String chatMessage) {
-		Wrapper.getInstance().getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(ChatPrefix + chatMessage));
-	}
+    public GuiManager getGuiManager() {
+        if (guiManager == null) {
+            guiManager = new GuiManager();
+            guiManager.setTheme(new SimpleTheme());
+            guiManager.setup();
+            guiManager.update();
+        }
+        return guiManager;
+    }
 
-	public static String getClient_Name() {
-		return Client_Name;
-	}
+    public GuiManagerDisplayScreen getGui() {
+        if (gui == null) {
+            gui = new GuiManagerDisplayScreen(getGuiManager());
+        }
+        return gui;
+    }
 
-	public static double getClient_Version() {
-		return Client_Version;
-	}
-
-	public static String getClient_Creator() {
-		return Client_Creator;
-	}
-
-	public static Logger getLogger() {
-		return logger;
-	}
-
-	public static Opiates getInstance() {
-		return Client_Instance;
-	}
-
-	public static ModuleManager getModuleManager() {
-		return moduleManager;
-	}
-
-	public CommandManager getCommandManager() {
-		return commandManager;
-	}
-
-	public static Hud getHud() {
-		return hud;
-	}
-	
-	
+    public void addChatMessage(String chatMessage) {
+        Wrapper.getInstance().getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(ChatPrefix + chatMessage));
+    }
 
 }

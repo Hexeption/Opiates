@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 | Hexeption | All rights reserved.
+ * Copyright ï¿½ 2016 | Hexeption | All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ public class Gui extends Module {
 	
 	@Override
 	public void onToggle() {
-		Wrapper.getInstance().getMinecraft().displayGuiScreen(Opiates.getInstance().getGui());
+		Wrapper.getInstance().getMinecraft().displayGuiScreen(Opiates.theClient.getGui());
 	}
 
 }

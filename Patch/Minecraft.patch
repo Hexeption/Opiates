@@ -1,5 +1,5 @@
 diff --git a/src/net/minecraft/client/Minecraft.java b/src/net/minecraft/client/Minecraft.java
-index 4b1041d..850ca55 100644
+index 4b1041d..4d475a1 100644
 --- a/src/net/minecraft/client/Minecraft.java
 +++ b/src/net/minecraft/client/Minecraft.java
 @@ -1,17 +1,5 @@
@@ -131,18 +131,17 @@ index 4b1041d..850ca55 100644
          }
  
          this.renderEngine.deleteTexture(this.mojangLogo);
-@@ -616,6 +625,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -616,6 +625,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
          }
  
          this.renderGlobal.makeEntityOutlineShader();
 +        
 +        //TODO: Client
-+        Opiates opiates = new Opiates();
-+        opiates.startClient();
++        Opiates.theClient.startClient();
      }
  
      private void registerMetadataSerializers()
-@@ -997,14 +1010,16 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -997,14 +1009,16 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
          if (guiScreenIn == null && this.theWorld == null)
          {
@@ -161,7 +160,7 @@ index 4b1041d..850ca55 100644
          {
              this.gameSettings.showDebugInfo = false;
              this.ingameGUI.getChatGUI().clearChatMessages();
-@@ -1996,6 +2011,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1996,6 +2010,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
              if (flag)
              {
@@ -172,7 +171,7 @@ index 4b1041d..850ca55 100644
                  {
                      this.entityRenderer.switchUseShader();
 diff --git a/src/net/minecraft/client/entity/EntityPlayerSP.java b/src/net/minecraft/client/entity/EntityPlayerSP.java
-index f5794b7..3414032 100644
+index f5794b7..49bbf4b 100644
 --- a/src/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/src/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,5 +1,9 @@
@@ -202,7 +201,7 @@ index f5794b7..3414032 100644
 -        this.sendQueue.addToSendQueue(new CPacketChatMessage(message));
 +    	if (message.startsWith(CommandManager.CMD_Prefix))
 +        {
-+            Opiates.getInstance().getCommandManager().callCommand(message);
++            Opiates.theClient.cmds.callCommand(message);
 +        }else{
 +        	this.sendQueue.addToSendQueue(new CPacketChatMessage(message));
 +        }
@@ -368,6 +367,30 @@ index e943b88..7ce8a76 100644
          }
          else if (button.id == 1)
          {
+diff --git a/src/net/minecraft/client/gui/GuiSlot.java b/src/net/minecraft/client/gui/GuiSlot.java
+index d11ea37..6c22285 100644
+--- a/src/net/minecraft/client/gui/GuiSlot.java
++++ b/src/net/minecraft/client/gui/GuiSlot.java
+@@ -11,8 +11,8 @@ import org.lwjgl.input.Mouse;
+ public abstract class GuiSlot
+ {
+     protected final Minecraft mc;
+-    protected int width;
+-    protected int height;
++    protected static int width;
++    protected static int height;
+ 
+     /** The top of the slot container. Affects the overlays and scrolling. */
+     protected int top;
+@@ -23,7 +23,7 @@ public abstract class GuiSlot
+     protected int left;
+ 
+     /** The height of a slot. */
+-    protected final int slotHeight;
++    protected int slotHeight;
+ 
+     /** The buttonID of the button used to scroll up */
+     private int scrollUpButtonID;
 diff --git a/src/net/minecraft/client/main/Main.java b/src/net/minecraft/client/main/Main.java
 index 96e3c33..f2ac0d0 100644
 --- a/src/net/minecraft/client/main/Main.java
@@ -470,7 +493,7 @@ index 3d96d60..a102b63 100644
      }
  
 diff --git a/src/net/minecraft/client/renderer/entity/RenderLivingBase.java b/src/net/minecraft/client/renderer/entity/RenderLivingBase.java
-index 454fb63..7465f48 100644
+index 454fb63..8139183 100644
 --- a/src/net/minecraft/client/renderer/entity/RenderLivingBase.java
 +++ b/src/net/minecraft/client/renderer/entity/RenderLivingBase.java
 @@ -1,8 +1,17 @@
@@ -523,7 +546,7 @@ index 454fb63..7465f48 100644
 -                    this.renderModel(entity, f6, f5, f8, f2, f7, f4);
 +                  	
 +                    //TODO: Values
-+					if (Opiates.getInstance().getModuleManager().getModule(OutlineESP.class).getState()) {
++					if (Opiates.theClient.mods.getModule(OutlineESP.class).getState()) {
 +						GlStateManager.depthMask(true);
 +						if (!(entity instanceof EntityPlayer) || ((EntityPlayer) entity).isSpectator()) {
 +							this.renderLayers(entity, f6, f5, partialTicks, f8, f2, f7, f4);

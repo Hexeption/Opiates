@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 | Hexeption | All rights reserved.
+ * Copyright ï¿½ 2016 | Hexeption | All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ public class CommandManager {
 		}
 		
 		if(!commandResolved){
-			Opiates.getInstance().addChatMessage("§cInvalid command. Type §6\"-help\" §cfor help.");
+			Opiates.theClient.addChatMessage("Â§cInvalid command. Type Â§6\"-help\" Â§cfor help.");
 		}
 	}
 	

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 | Hexeption | All rights reserved.
+ * Copyright ï¿½ 2016 | Hexeption | All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ public class OpiatesOptions extends GuiScreen {
 		int bottomCenter = this.height / 6 + 120 - 6;
 		int bottomBottom = this.height / 6 + 144 - 6;
 
-		this.buttonList.add(new GuiButton(1, leftAlign, topExtraTop, 150, 20, "Theme: " + Opiates.getHud().getCurrentTheme().getName()));
+		this.buttonList.add(new GuiButton(1, leftAlign, topExtraTop, 150, 20, "Theme: " + Opiates.theClient.hud.getCurrentTheme().getName()));
 		this.buttonList.add(new GuiButton(2, rightAlign, topExtraTop, 150, 20, "TTF Chat: " + "On"));
 
 		this.buttonList.add(new GuiButton(3, leftAlign, topTop, 150, 20, ServerUtils.getProtocolName()));
@@ -85,7 +85,7 @@ public class OpiatesOptions extends GuiScreen {
 			this.mc.displayGuiScreen(this.lastScreen);
 			break;
 		case 1:
-			Opiates.getHud().onNextTheme();
+			Opiates.theClient.hud.onNextTheme();
 			initGui();
 			break;
 		case 2:

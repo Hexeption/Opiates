@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 | Hexeption | All rights reserved.
+ * Copyright ï¿½ 2016 | Hexeption | All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -79,8 +79,8 @@ public class OpiatesMainMenu extends GuiMainMenu {
 		String MinecraftCopyright = "Copyright Mojang AB";
 		String MinecraftCopyright2 = "Do not distribute!";
 
-		String OpiatesVersion = Opiates.getClient_Name() + " " + Opiates.getClient_Version();
-		String OpiatesCopyright = "Copyright '" + Opiates.getClient_Creator() + "'";
+		String OpiatesVersion = Opiates.theClient.Client_Name + " " + Opiates.theClient.Client_Version;
+		String OpiatesCopyright = "Copyright '" + Opiates.theClient.Client_Creator + "'";
 		String OpiatesCopyright2 = "All right reserved";
 
 		drawString(fontRendererObj, MinecraftVersion, width - fontRendererObj.getStringWidth(MinecraftVersion) - 5, this.height - 29, Color.white.getRGB());
